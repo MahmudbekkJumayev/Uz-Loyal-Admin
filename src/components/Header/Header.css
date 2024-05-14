@@ -1,0 +1,40 @@
+header {
+  width: 100%;
+  background: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 40px;
+  border: 1px solid #e2e2e2;
+
+  & a {
+    font-size: 24px;
+    color: #ffffff;
+  }
+
+  & .user {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    cursor: pointer;
+    border: 1px solid #e2e2e2;
+    padding: 0 20px 0 15px;
+    border-radius: 10px;
+
+    & .user_icon {
+      background: #ffffff;
+      width: fit-content;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-content: center;
+      border-radius: 50%;
+    }
+
+    & span {
+      color: #3e3e3e;
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+}
