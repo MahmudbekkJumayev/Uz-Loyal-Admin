@@ -3,12 +3,14 @@ import { TiHome } from "react-icons/ti";
 import { NavLink, Link } from "react-router-dom";
 import { Button, Menu } from "antd";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { BsShopWindow } from "react-icons/bs";
-import { HiOutlineNewspaper } from "react-icons/hi";
+import { GrResources } from "react-icons/gr";
+import { MdMiscellaneousServices } from "react-icons/md";
 import { GrMapLocation } from "react-icons/gr";
-import { BiSolidCity } from "react-icons/bi";
-import { IoCarSportOutline } from "react-icons/io5";
-import { IoSettingsOutline } from "react-icons/io5";
+import { BiCategory } from "react-icons/bi";
+import { ImBlogger2 } from "react-icons/im";
+
+import { IoMdPeople } from "react-icons/io";
+import { FaRegNewspaper } from "react-icons/fa6";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -63,7 +65,7 @@ const Sidebar = () => {
         Categories
       </NavLink>,
       "1",
-      <TiHome style={{ fontSize: "20px" }} />
+      <BiCategory style={{ fontSize: "20px" }} />
     ),
     getItem(
       <NavLink
@@ -74,7 +76,7 @@ const Sidebar = () => {
         Faqs
       </NavLink>,
       "2",
-      <IoSettingsOutline style={{ fontSize: "20px" }} />
+      <IoMdPeople style={{ fontSize: "20px" }} />
     ),
     getItem(
       <NavLink
@@ -85,7 +87,7 @@ const Sidebar = () => {
         News
       </NavLink>,
       "3",
-      <BsShopWindow style={{ fontSize: "20px" }} />
+      <FaRegNewspaper style={{ fontSize: "20px" }} />
     ),
     getItem(
       <NavLink
@@ -96,7 +98,7 @@ const Sidebar = () => {
         Blogs
       </NavLink>,
       "4",
-      <HiOutlineNewspaper style={{ fontSize: "20px" }} />
+      <ImBlogger2 style={{ fontSize: "20px" }} />
     ),
     getItem(
       <NavLink
@@ -107,7 +109,7 @@ const Sidebar = () => {
         Services
       </NavLink>,
       "5",
-      <GrMapLocation style={{ fontSize: "20px" }} />
+      <MdMiscellaneousServices style={{ fontSize: "20px" }} />
     ),
     getItem(
       <NavLink
@@ -118,7 +120,7 @@ const Sidebar = () => {
         Sources
       </NavLink>,
       "6",
-      <GrMapLocation style={{ fontSize: "20px" }} />
+      <GrResources style={{ fontSize: "20px" }} />
     ),
   ];
 
