@@ -1,7 +1,9 @@
 import React from "react";
 
 const Faqs = () => {
-  return <div>Faqs</div>;
+  return <div>
+    {/* Complating faqs */}
+  </div>;
 };
 
 export default Faqs;
