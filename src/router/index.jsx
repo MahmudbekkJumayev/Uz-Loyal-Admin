@@ -9,6 +9,7 @@ import App from "../App";
 import Error from "../pages/Error/Error";
 import Soursec from "../pages/Soursec/Soursec";
 import Login from "../pages/Auth/Login";
+import PrivateRoute from "../components/Private/PrivateRoute";
 
 const Router = createBrowserRouter([
   {
@@ -17,28 +18,28 @@ const Router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       {
-        path: "/categories",
-        element: <Categories />,
+        path: "categories",
+        element: <PrivateRoute element={<Categories />} />,
       },
       {
-        path: "/faqs",
-        element: <Faqs />,
+        path: "faqs",
+        element: <PrivateRoute element={<Faqs />} />,
       },
       {
-        path: "/news",
-        element: <News />,
+        path: "news",
+        element: <PrivateRoute element={<News />} />,
       },
       {
-        path: "/blogs",
-        element: <Blogs />,
+        path: "blogs",
+        element: <PrivateRoute element={<Blogs />} />,
       },
       {
-        path: "/services",
-        element: <Services />,
+        path: "services",
+        element: <PrivateRoute element={<Services />} />,
       },
       {
-        path: "/sources",
-        element: <Soursec />,
+        path: "sources",
+        element: <PrivateRoute element={<Soursec />} />,
       },
     ],
   },

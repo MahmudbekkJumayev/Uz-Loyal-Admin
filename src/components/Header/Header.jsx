@@ -30,7 +30,7 @@ const Header = () => {
   ];
 
   return (
-    <div className="w-[1300px]">
+    <div>
       <header>
         <div></div>
         <Dropdown menu={{ items }} placement="bottom" arrow>

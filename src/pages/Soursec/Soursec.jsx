@@ -1,4 +1,13 @@
-import { message, Table, Button, Modal, Form, Input, Upload } from "antd";
+import {
+  message,
+  Table,
+  Button,
+  Modal,
+  Form,
+  Input,
+  Upload,
+  Select,
+} from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import style from "./Soursec.module.css";
@@ -6,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 const Soursec = () => {
   const [soursec, setSourcec] = useState([]);
+  const [category, setCategory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [form] = Form.useForm();
@@ -71,7 +81,24 @@ const Soursec = () => {
       .get("https://api.dezinfeksiyatashkent.uz/api/sources")
       .then((response) => {
         setSourcec(response.data.data);
-        console.log(response.data.data);
+        console.log(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error getting sources.", error);
+        message.error("Error getting sources.");
+        setLoading(false);
+      });
+  };
+
+  // categor get
+  const getCategory = () => {
+    setLoading(true);
+    axios
+      .get("https://api.dezinfeksiyatashkent.uz/api/sources")
+      .then((response) => {
+        setCategory(response.data.data);
+        console.log(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -84,10 +111,11 @@ const Soursec = () => {
   useEffect(() => {
     localStorage.getItem("access_token") ? "" : navigate("/login");
     getData();
+    getCategory();
   }, []);
 
   const handleEdit = (item) => {
-    const imageUrl = `${urlimage}${item.image_src}`;
+    const imageUrl = `${urlimage}${item.images}`;
     setSelectedCity({
       id: item?.id,
       title: item?.title,
@@ -137,9 +165,9 @@ const Soursec = () => {
       formData.append("title", values?.title);
       formData.append("category", values?.category);
       if (values?.images && values?.images?.length > 0) {
-        values.images.forEach((image) => {
-          if (image && image?.originFileObj) {
-            formData.append("images", image?.originFileObj, image.name);
+        values.images.forEach((images) => {
+          if (images && images?.originFileObj) {
+            formData.append("images", images?.originFileObj, images.name);
           }
         });
       }
@@ -219,17 +247,27 @@ const Soursec = () => {
         <Form form={form} layout="vertical">
           <Form.Item
             name="title"
-            label="Title"
+            label="title"
             rules={[{ required: true, message: "Please enter the name" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             name="category"
-            label="Category"
+            label="category"
             rules={[{ required: true, message: "Please enter the text" }]}
           >
-            <Input.TextArea rows={4} />
+            <Select placeholder="Select Brand">
+              {category.map((item) => (
+                <Select.Option
+                  key={item.id}
+                  value={item.id}
+                  disabled={item.disabled}
+                >
+                  {item.category_id}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item
             label="Upload Image"
