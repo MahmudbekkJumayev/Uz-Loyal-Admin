@@ -72,7 +72,14 @@ const Faqs = () => {
       key: "name",
     },
     {
-      title: "Actions",
+      title: (
+        <div className="flex items-center justify-between">
+          <p>Actions</p>
+          <Button type="primary" onClick={showModal}>
+            Add faq
+          </Button>
+        </div>
+      ),
       dataIndex: "actions",
       key: "actions",
     },
@@ -84,9 +91,7 @@ const Faqs = () => {
     name: item?.text_uz,
     actions: (
       <div className="flex items-center gap-x-5">
-        <Button type="primary" onClick={showModal}>
-          Edit
-        </Button>
+        <Button type="primary">Edit</Button>
         <Button type="primary" danger onClick={() => deleteFaq(item?.id)}>
           Delete
         </Button>
