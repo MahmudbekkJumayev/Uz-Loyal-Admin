@@ -8,9 +8,9 @@ function Categories() {
     const [form] = Form.useForm();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const authToken = localStorage.getItem('access_token');
-    const urlimage = 'https://autoapi.dezinfeksiyatashkent.uz/api/uploads/images/' 
-
+    const [loading,setLoading] = useState(false);
     const getData = () => {
+        setLoading(true)
         axios.get(`https://api.dezinfeksiyatashkent.uz/api/categories`, {
             headers: {
                 Authorization: `Bearer ${authToken}`,
@@ -18,6 +18,7 @@ function Categories() {
         })
             .then((response) => {
                 setCategories(response.data.data);
+                setLoading(false)
             })
             .catch((error) => {
                 console.log("Error", error);
@@ -28,6 +29,7 @@ function Categories() {
     }, []);
 
     const handleOk = (values) => {
+        setLoading(true)
         const formData = new FormData();
         formData.append('name', values.name);
         formData.append('description', values.description)
@@ -55,7 +57,9 @@ function Categories() {
             .catch(error => {
                 console.error(error);
                 message.error("An error occurred while processing the request");
-            });
+            }).finally(()=>{
+                setLoading(false);
+            })
     };
 
    
@@ -86,7 +90,7 @@ function Categories() {
         description: item.description,
         action: (
             <>
-                <Button onClick={() => editModal(item)} type="primary">Edit</Button>
+                <Button onClick={() => editModal(item)} type="primary" className="mr-3">Edit</Button>
                 <Button onClick={() => deleteUser(item.id)} type="primary" danger>Delete</Button>
             </>
         )
@@ -168,7 +172,7 @@ function Categories() {
                     </Form.Item>
                    
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit" loading={loading}>
                             Save
                         </Button>
                     </Form.Item>
