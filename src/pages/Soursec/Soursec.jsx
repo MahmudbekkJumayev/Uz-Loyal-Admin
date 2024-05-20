@@ -40,9 +40,9 @@ const Soursec = () => {
       key: "text",
     },
     {
-      title: "Images",
-      dataIndex: "images",
-      key: "images",
+      title: "src",
+      dataIndex: "src",
+      key: "src",
     },
     {
       title: "Action",
@@ -56,9 +56,7 @@ const Soursec = () => {
     number: index + 1,
     title: item.title,
     category: item.category,
-    images: (
-      <img style={{ width: "100px" }} src={`${urlimage}${item.image_src}`} />
-    ),
+    src: <img style={{ width: "100px" }} src={`${urlimage}${item.src}`} />,
     action: (
       <>
         <span style={{ marginRight: "20px" }}>
@@ -95,15 +93,15 @@ const Soursec = () => {
   const getCategory = () => {
     setLoading(true);
     axios
-      .get("https://api.dezinfeksiyatashkent.uz/api/sources")
+      .get("https://api.dezinfeksiyatashkent.uz/api/categories")
       .then((response) => {
         setCategory(response.data.data);
-        console.log(response.data);
+
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error getting sources.", error);
-        message.error("Error getting sources.");
+        console.error("Error getting category.", error);
+        message.error("Error getting category.");
         setLoading(false);
       });
   };
@@ -115,14 +113,13 @@ const Soursec = () => {
   }, []);
 
   const handleEdit = (item) => {
-    const imageUrl = `${urlimage}${item.images}`;
+    const imageUrl = `${urlimage}${item.src}`;
     setSelectedCity({
       id: item?.id,
       title: item?.title,
       category: item?.category,
-      images: imageUrl,
+      src: imageUrl,
     });
-
     setVisible(true);
     form.setFieldsValue(item);
   };
@@ -164,10 +161,10 @@ const Soursec = () => {
       const formData = new FormData();
       formData.append("title", values?.title);
       formData.append("category", values?.category);
-      if (values?.images && values?.images?.length > 0) {
-        values.images.forEach((images) => {
-          if (images && images?.originFileObj) {
-            formData.append("images", images?.originFileObj, images.name);
+      if (values?.src && values?.src?.length > 0) {
+        values.src.forEach((src) => {
+          if (src && src?.originFileObj) {
+            formData.append("images", src?.originFileObj, src.name);
           }
         });
       }
