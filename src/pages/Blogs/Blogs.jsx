@@ -8,9 +8,11 @@ function Blogs() {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const authToken = localStorage.getItem('access_token');
-  const urlimage = 'https://test.uzloyal.uz/api/uploads/images/'
+  const urlimage = 'https://api.dezinfeksiyatashkent.uz/api/uploads/images/'
+  const [loading,setLoading] = useState(false);
 
   const getData = () => {
+    setLoading(true)
     axios.get(`https://api.dezinfeksiyatashkent.uz/api/blogs`, {
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -18,7 +20,7 @@ function Blogs() {
     })
       .then((response) => {
         setBlogs(response.data.data);
-        console.log(response.data.data);
+        setLoading(false)
        })
       .catch((error) => {
         console.log("Error", error);
@@ -29,6 +31,7 @@ function Blogs() {
   }, []);
 
   const handleOk = (values) => {
+    setLoading(true)
     const formData = new FormData();
     formData.append('title_en', values.title_en);
     formData.append('title_ru', values.title_ru);
@@ -44,7 +47,7 @@ function Blogs() {
         }
       });
     }
-    const url = form.id ? `https://api.dezinfeksiyatashkent.uz/api/blogs/${form.id}` : "https://api.dezinfeksiyatashkent.uz/api/blogs";
+    const url = form.id ? ` blogs/${form.id}` : "https://api.dezinfeksiyatashkent.uz/api/blogs";
     const method = form.id ? 'PUT' : 'POST';
     const headers = {
       'Authorization': `Bearer ${authToken}`,
@@ -67,7 +70,9 @@ function Blogs() {
       .catch(error => {
         console.error(error);
         message.error("An error occurred while processing the request");
-      });
+      }).finally(()=>{
+        setLoading(false)
+      })
   };
 
   const showModal = () => {
@@ -77,10 +82,9 @@ function Blogs() {
 
   const handleCancel = () => {
     setIsModalOpen(false);
-  };
+  }
 
   const editModal = (item) => {
-    console.log(item.id);
     setIsModalOpen(true);
     form.setFieldsValue({
       title_en: item?.title_en,
@@ -90,7 +94,7 @@ function Blogs() {
       text_ru: item?.text_ru,
       text_uz: item?.text_uz,
       author: item?.author,
-      // images: [{ uid: item.id, name: 'image', status: 'done', url: `${urlimage}${item?.image_blogs[0]?.image?.src}` }], 
+      images: [{ uid: item.id, name: 'image', status: 'done', url: `${urlimage}${item?.blog_images[0]?.image?.src}` }], 
     });
     form.id = item.id;
   };
@@ -117,7 +121,7 @@ function Blogs() {
       ) : null,
       action: (
         <>
-          <Button onClick={() => editModal(item)} type="primary">Edit</Button>
+          <Button onClick={() => editModal(item)} className="mr-3" type="primary">Edit</Button>
           <Button onClick={() => deleteUser(item.id)} type="primary" danger>Delete</Button>
         </>
       )
@@ -297,7 +301,7 @@ function Blogs() {
             </Upload>
           </Form.Item>
           <Form.Item style={{ flex: '0 0 100%' }}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={loading}>
               Save
             </Button>
           </Form.Item>
